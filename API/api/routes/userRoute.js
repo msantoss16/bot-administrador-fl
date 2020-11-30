@@ -11,4 +11,6 @@ module.exports = app => {
         .put(controller.updateUser);
     app.route('/users/:id')
         .post(controller.deleteUser);
+    app.route('/logar')
+        .post(controller.logarUser);
 };

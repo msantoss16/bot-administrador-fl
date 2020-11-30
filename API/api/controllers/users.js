@@ -1,6 +1,7 @@
 module.exports = () => {
     const controller = {};
     const User = require('../models/user');
+    const bcrypt = require('bcrypt');
     
     controller.showUsers = (req, res) => {
         res.send('oilinda');
@@ -35,6 +36,26 @@ module.exports = () => {
 
     controller.updateUser = (req, res) => {
         res.send('ok');
+    };
+
+    controller.logarUser = async (req, res) => {
+        try {
+            const {email, password } = req.body;
+            const user = await User.findOne({email}).select('+password');
+        
+            if(!user)
+                return res.status(400).send({error: 'Usuario não encontrado'});
+    
+            if (!await bcrypt.compare(password, user.password))
+                return res.status(400).send({error: 'Senha invalida'});
+    
+            user.password = undefined;
+    
+            res.send(user);
+
+        } catch (error) {
+            return res.status(400).send({error})
+        }
     };
     return controller;
 };
