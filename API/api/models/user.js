@@ -16,7 +16,6 @@ const DataSchema = ({
         password: {
             type: String,
             required: true,
-            select: false,
         }  
     }]
 });

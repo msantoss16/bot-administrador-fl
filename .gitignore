@@ -1,2 +1,4 @@
 API/node_modules/
 API/config/default.json
+botIqoption/configs.py
+botTelegram/configs.py

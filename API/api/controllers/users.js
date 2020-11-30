@@ -3,8 +3,15 @@ module.exports = () => {
     const User = require('../models/user');
     const bcrypt = require('bcrypt');
     
-    controller.showUsers = (req, res) => {
-        res.send('oilinda');
+    controller.showUsers = async (req, res) => {
+        try {
+            await User.find()
+                .then(function(dados){
+                    return res.send({Users: dados})
+                })
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     controller.showUser = (req, res) => {
@@ -26,6 +33,7 @@ module.exports = () => {
 
             return res.send(user);
         } catch (err) {
+            console.log(err);
             return res.status(400).send({error: 'Erro ao se registrar'});
         }
     };
