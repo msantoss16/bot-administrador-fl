@@ -10,6 +10,8 @@ module.exports = () => {
 
     //middleware
     app.use(bodyParser.json());
-
+    
+    //rotas
+    require('../api/routes/userRoute')(app);
     return app;
 };
