@@ -39,7 +39,12 @@ module.exports = () => {
     };
 
     controller.deleteUser = (req, res) => {
-        res.send('ok');
+        User.deleteOne({
+            "_id":req.params.id
+        }, (err, response) => {
+            if (err) {throw err;}
+        });
+        return res.status(200).send({concluido: true});
     };
 
     controller.updateUser = (req, res) => {

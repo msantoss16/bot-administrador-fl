@@ -10,7 +10,7 @@ module.exports = app => {
     app.route('/users/:id')
         .put(controller.updateUser);
     app.route('/users/:id')
-        .post(controller.deleteUser);
+        .delete(controller.deleteUser);
     app.route('/logar')
         .post(controller.logarUser);
 };

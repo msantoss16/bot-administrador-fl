@@ -17,7 +17,14 @@ const DataSchema = ({
             type: String,
             required: true,
         }  
-    }]
+    }],
+    betDetails: {
+        valor: {
+            type: String,
+            required: true,
+            default: '1000'
+        }
+    }
 });
 
 const UserSchema = new mongoose.Schema({
