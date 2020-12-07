@@ -8,7 +8,9 @@ import requests
 logging.basicConfig(level=logging.ERROR)
 
 def sepMandarApi(texto):
-    return texto.split()
+    texto2 = texto.split()
+    req = requests.post("http://localhost:8081/sinais", json={'periodo':texto2[3][1:], 'paridade':texto2[5], 'horario':texto2[7], 'sinal':texto2[9].lower(), 'gale':texto2[11]})
+    return req
 
 async def bot():
     async with TelegramClient(configs.userLogin['number'], configs.userLogin['api_id'], configs.userLogin['api_hash']) as client:

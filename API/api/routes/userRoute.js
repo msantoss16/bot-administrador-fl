@@ -1,16 +1,22 @@
 module.exports = app => {
-    const controller = require('../controllers/users')();
+    const users = require('../controllers/users')();
+    const sinais = require('../controllers/sinais')();
 
+    //Rotas dos usuarios
     app.route('/users')
-        .get(controller.showUsers);
+        .get(users.showUsers);
     app.route('/users/:id')
-        .get(controller.showUser);
+        .get(users.showUser);
     app.route('/users')
-        .post(controller.cadUser);
+        .post(users.cadUser);
     app.route('/users/:id')
-        .put(controller.updateUser);
+        .put(users.updateUser);
     app.route('/users/:id')
-        .delete(controller.deleteUser);
+        .delete(users.deleteUser);
     app.route('/logar')
-        .post(controller.logarUser);
+        .post(users.logarUser);
+
+    //Rotas dos sinais
+    app.route('/sinais')
+        .post(sinais.receberSinal);
 };
