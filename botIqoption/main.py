@@ -9,7 +9,6 @@ app = Flask(__name__)
 
 def apostar2(periodo, moeda, sinal):
     res = requests.get('http://localhost:8081/users')
-    start = time.time()
     for user in res.json()['Users']:
         for conta in user['data']['iqoption']:
             try:
@@ -17,8 +16,6 @@ def apostar2(periodo, moeda, sinal):
                 print('teste')
             except Exception as err:
                 print(err)
-    end = time.time()
-    print(end-start)
 
 @app.route('/',methods=['GET'])
 def teste():
