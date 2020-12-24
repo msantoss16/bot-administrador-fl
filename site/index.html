@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>GD Bot</title>
+        <meta charset='utf-8'>
+        <link rel="stylesheet" href="styles/index.css">
+    </head>
+    <body>
+        <div class='content'>
+            <div class='wrap-login'>
+                <ul class='nav-tabs'>
+                    <li class='active' id="registerNav">
+                        <a href="#" onclick="setDiv(true);">Registrar</a>
+                    </li>
+                    <li id="loginNav">
+                        <a href="#" onclick="setDiv(false);">Login</a>
+                    </li>
+                </ul>
+                <div class='login divcontent' id='login'>
+                    <div class='login-row'>
+                        <input type="email" autocomplete="off" class="login-input name" pattern="^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$" placeholder="Email"/>
+                    </div>
+                    <div class='login-row'>
+                        <input type="password" class="login-input pass" placeholder="Senha" />
+                    </div>
+                    <button type='button' class='login-submit submit'>Entrar</button>
+                </div>
+                <div class='register divcontent' id='register'>
+                    <div class='login-row'>
+                        <input type="email" autocomplete="off" class="login-input name" pattern="^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$" placeholder="Email"/>
+                    </div>
+                    <div class='login-row'>
+                        <input type="password" class="login-input pass" placeholder="Senha" />
+                    </div>
+                    <div class='login-row'>
+                        <input type="password" class="login-input pass" placeholder="Confirme a senha" />
+                    </div>
+                    <button type='button' class='register-submit submit'>Cadastrar</button>
+                </div>
+            </div>
+        </div>
+        <script src="scripts/index.js"></script>
+    </body>
+</html>

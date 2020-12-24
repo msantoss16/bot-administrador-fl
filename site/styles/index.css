@@ -1,0 +1,129 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+textarea:focus, input:focus, select:focus {
+    box-shadow: 0 0 0 0;
+    border: 0 none;
+    outline: 0;
+} 
+
+.content{
+    height: 100%;
+    background-image: url('../images/bot-login-esticado.jpg');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.wrap-login{
+    background-color: rgba(196,196,196,0.6);
+    height: 100%;
+    width: 35%;
+    float: right;
+    position: relative;
+    margin-right: 15rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* .login-row input{
+    width: 95%;
+    padding: 0.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    margin: 0.6rem;
+    background-color: #C4C4C4;
+}
+
+.login-row{
+    width: 80%;
+} */
+
+
+
+.login-row input[type='email'], .login-row input[type='password']{
+    background-color: #C4C4C4;
+    border: 0;
+    font: inherit;
+    padding: 1.1rem;
+    width: 100%;
+    font-size: 110%;
+}
+
+.login-row{
+    display: flex;
+    border-radius: 0.25rem;
+    margin: 1.3rem;
+    width: 70%;
+}
+
+.submit{
+    font-weight: 700;
+    text-transform: uppercase;
+    width: 70%;
+    cursor: pointer;
+    background-color: #FEAC0B;
+    border: 0;
+    padding: 1.1rem;
+    color: #312E2E;
+    margin: 1.3rem;
+}
+
+h3 {
+    font-size: 2rem;
+    margin: 1.3rem;
+}
+
+.nav-tabs>li {
+    display: inline;
+    text-align: center;
+    float: none;
+}
+
+.nav-tabs>li>a {
+    text-transform: uppercase;
+    border-bottom: 2px solid #717171;
+    display: inline;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px 20px;
+    border-radius: 4px 4px 0 0;
+    color: #717171;
+    /* text-shadow: 0.1em 0.1em 0.2em black; */
+}
+
+.nav-tabs>li.active>a {
+    border-bottom: 3px solid #FF8703;
+    color: #FF8703;
+    text-shadow: none;
+}
+
+ul {
+    margin: 3rem;
+}
+
+.divcontent {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
