@@ -21940,8 +21940,8 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
 .dark-edition .dropdown:not(.show-dropdown) .dropdown-menu li>a:hover,
 .dark-edition .dropdown:not(.show-dropdown) .dropdown-menu li>a:focus,
 .dark-edition .dropdown:not(.show-dropdown) .dropdown-menu li>a:active {
-  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
-  background: linear-gradient(60deg, #7b1fa2, #913f9e);
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(255, 152, 0, 0.4);
+  background: linear-gradient(60deg, #ffa726, #fb8c00);
   color: #fff;
 }
 
