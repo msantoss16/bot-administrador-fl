@@ -16,29 +16,32 @@
                         <a href="#" onclick="setDiv(false);">Login</a>
                     </li>
                 </ul>
-                <div class='login divcontent' id='login'>
+                <div class='login divcontent' id='login' style="display: none;">
                     <div class='login-row'>
-                        <input type="email" autocomplete="off" class="login-input name" pattern="^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$" placeholder="Email"/>
+                        <input type="email" autocomplete="off" class="login-input name nlogin" pattern="^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$" placeholder="Email"/>
                     </div>
                     <div class='login-row'>
-                        <input type="password" class="login-input pass" placeholder="Senha" />
+                        <input type="password" class="login-input pass plogin" placeholder="Senha" />
                     </div>
-                    <button type='button' class='login-submit submit'>Entrar</button>
+                    <button type='button' id='btnlogin' class='login-submit submit'>Entrar</button>
                 </div>
                 <div class='register divcontent' id='register'>
                     <div class='login-row'>
-                        <input type="email" autocomplete="off" class="login-input name" pattern="^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$" placeholder="Email"/>
+                        <input type="email" autocomplete="off" class="login-input name nregis" pattern="^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$" placeholder="Email"/>
                     </div>
                     <div class='login-row'>
-                        <input type="password" class="login-input pass" placeholder="Senha" />
+                        <input type="password" class="login-input pass pregis" placeholder="Senha" />
                     </div>
                     <div class='login-row'>
-                        <input type="password" class="login-input pass" placeholder="Confirme a senha" />
+                        <input type="password" class="login-input pass pcregis" placeholder="Confirme a senha" />
                     </div>
-                    <button type='button' class='register-submit submit'>Cadastrar</button>
+                    <button type='button' id='btncad' class='register-submit submit'>Cadastrar</button>
                 </div>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
         <script src="scripts/index.js"></script>
     </body>
 </html>
