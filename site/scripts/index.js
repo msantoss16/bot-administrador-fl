@@ -50,8 +50,7 @@ $('#btnlogin').click(function(){
         .then(response => {
             let token = response.data.token;
             Cookies.set('token', token, {expires: 1});
-            console.log("teste");
-            Location.reload()
+            location.reload()
         })
         .catch(error => {
             //console.log(error.response.data.error);
