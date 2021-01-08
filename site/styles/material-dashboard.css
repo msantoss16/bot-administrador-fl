@@ -22068,4 +22068,95 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
   }
 }
 
-/*# sourceMappingURL=dashboard-free.css.map */
+
+*, *:before, *:after {
+  position: relative;
+  box-sizing: border-box;
+}
+#btn {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+#btn:focus, #btn:active {
+  outline: none;
+  border: none;
+}
+
+#btn {
+  width: 40px;
+  height: 20px;
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: rgba(51, 51, 51, 0.1) 0px 32px 64px 0px;
+  overflow: hidden;
+}
+#btn .ripple.ripple--dark {
+  z-index: 1;
+  transform: scale(4.8);
+  transition: 0.6s ease;
+}
+#btn .ripple.ripple--light {
+  z-index: 2;
+  transform: scale(1);
+  transition: z-index 0s ease, transform 0s ease;
+}
+#btn.btn--checked {
+  background-color: #333333;
+  animation: changeColor 0.6s ease forwards;
+}
+@keyframes changeColor {
+  80% {
+    background-color: #333333;
+  }
+  80.01% {
+    background-color: #FFFFFF;
+  }
+  100% {
+    background-color: #FFFFFF;
+  }
+}
+#btn.btn--checked .ripple.ripple--dark {
+  z-index: 2;
+  transform: scale(1);
+  transition: z-index 0s ease, transform 0s ease;
+}
+#btn.btn--checked .ripple.ripple--light {
+  z-index: 1;
+  transform: scale(4.8);
+  transition: 0.6s ease;
+}
+.toggle {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 4px;
+  border-radius: 50%;
+  z-index: 5;
+}
+.toggle.toggle--dark {
+  background-color: #333333;
+  left: 3px;
+}
+.toggle.toggle--light {
+  background-color: #e9e0e0;
+  right: 3px;
+}
+.ripple {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 4px;
+  border-radius: 50%;
+}
+.ripple.ripple--dark {
+  background-color: #333333;
+  left: 3px;
+}
+.ripple.ripple--light {
+  background-color: #e9e0e0;
+  left: 20px;
+  top: 5px;
+}
+
