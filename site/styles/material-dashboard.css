@@ -22074,6 +22074,7 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
   box-sizing: border-box;
 }
 #btn {
+  bottom: 3px;
   background-color: transparent;
   border: none;
   margin: 0;
@@ -22131,7 +22132,7 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
   width: 15px;
   height: 15px;
   position: absolute;
-  top: 4px;
+  top: 2px;
   border-radius: 50%;
   z-index: 5;
 }
@@ -22147,7 +22148,7 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
   width: 15px;
   height: 15px;
   position: absolute;
-  top: 4px;
+  top: 2px;
   border-radius: 50%;
 }
 .ripple.ripple--dark {
@@ -22160,3 +22161,26 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
   top: 5px;
 }
 
+.moveDown{
+  top: -150rem;
+  opacity: 0;
+}
+
+.show{
+  top: 0rem;
+  opacity: 1;
+}
+
+@keyframes downShow {
+  0% {
+    top: -15rem;
+    opacity: 0;
+  }
+  40%{
+    opacity: 0.1;
+  }
+  100% {
+    top: 0rem;
+    opacity: 1;
+  }
+}

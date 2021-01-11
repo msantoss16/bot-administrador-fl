@@ -91,7 +91,7 @@
             <div class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header card-header-warning">
                                     <h4 class="card-title">Contas IqOption</h4>
@@ -111,11 +111,38 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <button class="btn" style="background-color: #FEA422; left: 0.3rem;"><span>+</span></button>
+                                    <button class="btn" onclick="ClickDownAnimation('iq');" style="background-color: #FEA422; left: 0.3rem; color: #333"><span>+</span></button>
+                                </div>
+                            </div>
+                            <div class="card moveDown" id="iq" style="margin-top: 3.5rem;">
+                                <div class="card-header card-header-warning">
+                                    <p class="card-title">Vincular conta Iqoption</p>
+                                    <p class="card-category">Certifique-se de digitar corretamente letras maiúsculas e minúsculas, números ou caracteres especiais.</p>
+                                </div>
+                                <div class="card-body">
+                                    <form style="left: 0.3rem; bottom: 1.2rem" for="iq">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">E-mail</label>
+                                                    <input type="email" class="form-control iqemail"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">Senha</label>
+                                                    <input type="password" class="form-control iqpassword"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary pull-right" style="top: 1.2rem; background-color: #FEA422; color: #333;">Adicionar email</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header card-header-info">
                                     <h4 class="card-title">Contas Telegram</h4>
@@ -135,7 +162,26 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <button class="btn" style="background-color: #a2e6ef; left: 0.3rem;"><span>+</span></button>
+                                    <button class="btn" onclick="ClickDownAnimation('tl');" style="background-color: #a2e6ef; left: 0.3rem; color: #333;"><span>+</span></button>
+                                </div>
+                            </div>
+                            <div class="card moveDown" id="tl" style="margin-top: 3.5rem;">
+                                <div class="card-header card-header-info">
+                                    <p class="card-title">Vincular conta telegram</p>
+                                    <p class="card-category">Vincule o número que você usa no telegram</p>
+                                </div>
+                                <div class="card-body">
+                                    <form style="left: 0.3rem; bottom: 1.2rem" for="tl">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="bmd-label-floating">Número ou Usuário</label>
+                                                    <input type="text" class="form-control tlNumber"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary pull-right" style="top: 1.2rem; background-color: #a2e6ef; color: #333;">Adicionar telegram</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -151,6 +197,7 @@
         <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/perfect-scrollbar@0.6.13/dist/js/perfect-scrollbar.jquery.min.js"></script>
         <script src="../scripts/base.js"></script>
+        <script src="../scripts/contas.js"></script>
         <script>
           if (!Cookies.get('token')){
             window.location.replace("../index.html");
