@@ -3,6 +3,7 @@ module.exports = app => {
     const sinais = require('../controllers/sinais')();
     const authMiddleware = require('../middleware/auth');
     const tokens = require('../controllers/tokens')();
+    const contas = require('../controllers/contas')();
 
     //Rotas dos usuarios
     app.route('/users')
@@ -30,4 +31,10 @@ module.exports = app => {
     app.use(authMiddleware);
     app.route('/token')
         .get(tokens.obterId);
+
+    //Rota das contas
+    app.route('/check/')
+        .post(contas.check);
+    app.route('/vincEmail')
+        .post(contas.vincEmail);
 };

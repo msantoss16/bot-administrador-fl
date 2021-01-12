@@ -25,9 +25,28 @@ $('#btncad').click(function(){
 });
 
 $('form[for=iq]').submit(function(e) {
+    md.showNotification('top', 'center', 'warning', 'Verificando a conta...');
     e.preventDefault();
     let _email = $('.iqemail').val();
     let _password = $('.iqpassword').val();
+    let _token = Cookies.get('token');
+    axios.post(`${serverURL}/vincEmail`, {email: _email, password: _password, token: _token}, {headers: {'Authorization': ('Bearer '+_token)}})
+        .then(response => {
+            switch (response.data.status.trim()) {
+                case 'ok':
+                    md.showNotification('top', 'center', 'success', 'Conta vinculada com sucesso');
+                    break
+                case 'password':
+                    md.showNotification('top', 'center', 'danger', 'Erro ao vincular a conta. Email ou senha incorreto!');
+                    break
+                default:
+                    md.showNotification('top','center', 'danger', 'Erro ao vincular a conta. Tente novamente mais tarde!');
+                    break
+            }
+        })
+        .catch(error => {
+            console.log(error.response.data.error);
+        })
 });
 
 $('form[for=tl]').submit(function(e) {

@@ -22184,3 +22184,8 @@ fieldset[disabled][disabled] .dark-edition .has-error .form-control,
     opacity: 1;
   }
 }
+
+div[data-notify=container] {
+  padding: 20px 15px; 
+  padding-left: 66px;
+}
