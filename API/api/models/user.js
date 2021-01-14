@@ -8,6 +8,7 @@ const DataSchema = ({
         required: false,
     },
     iqoption: [{
+        _id: false,
         email: {
             type: String,
             required: true,

@@ -37,4 +37,8 @@ module.exports = app => {
         .post(contas.check);
     app.route('/vincEmail')
         .post(contas.vincEmail);
+    app.route('/vincEmail')
+        .get(contas.obterEmails);
+    app.route('/vincEmail/:id')
+        .delete(contas.desvEmail);
 };
