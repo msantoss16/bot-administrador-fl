@@ -22,13 +22,9 @@ const DataSchema = ({
             type: String,
         }  
     }],
-    betDetails: {
-        valor: {
-            type: String,
-            required: true,
-            default: '1000'
-        }
-    }
+    folders: [{
+        
+    }]
 });
 
 const UserSchema = new mongoose.Schema({

@@ -52,7 +52,7 @@ $('form[for=iq]').submit(function(e) {
                         md.showNotification('top', 'center', 'danger', 'Erro ao vincular a conta. Email ou senha incorreto!');
                         break
                     case 'exists':
-                        md.showNotification('top', 'center', 'danger', 'Conta já vinculada, teste novamente com outra conta!');
+                        md.showNotification('top', 'center', 'danger', 'Conta já vinculada, tente novamente com outra conta!');
                         break
                     default:
                         md.showNotification('top','center', 'danger', 'Erro ao vincular a conta. Tente novamente mais tarde!');

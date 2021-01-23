@@ -1,10 +1,21 @@
+if (!Cookies.get('token')){
+  window.location.replace("../index.html");
+}
+
 const btn = document.getElementById('btn');
 const body = document.querySelector('body');
-
+if (!Cookies.get('dark-edition')){
+  body.classList.remove('dark-edition');
+  btn.classList.remove('btn--checked');
+} else {
+  body.classList.add('dark-edition');
+  btn.classList.add('btn--checked');
+}
 btn.addEventListener('click', () => {
   btn.classList.toggle('btn--checked')
   body.classList.toggle('dark-edition');
-})
+  Cookies.get('dark-edition') ? Cookies.remove('dark-edition') : Cookies.set('dark-edition', 'actived');
+});
 
 $(document).ready(function() {
     $().ready(function() {
