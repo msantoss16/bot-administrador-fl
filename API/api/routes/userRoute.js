@@ -4,6 +4,7 @@ module.exports = app => {
     const authMiddleware = require('../middleware/auth');
     const tokens = require('../controllers/tokens')();
     const contas = require('../controllers/contas')();
+    const pastas = require('../controllers/pastas')();
 
     //Rotas dos usuarios
     app.route('/users')
@@ -41,4 +42,8 @@ module.exports = app => {
         .get(contas.obterEmails);
     app.route('/vincEmail/:id')
         .delete(contas.desvEmail);
+
+    //Rota das pastas
+    app.route('/folder')
+        .post(pastas.novaPasta);
 };

@@ -23,7 +23,49 @@ const DataSchema = ({
         }  
     }],
     folders: [{
-        
+        configs: {
+            accType: {
+                type: Boolean,
+                default: false
+            },
+            account: {
+                type: String,
+            },
+            telegram: {
+                type: String,
+            },
+            value: {
+                type: Number,
+                required: true
+            },
+            folder: {
+                name: {
+                    type: String,
+                    required: true
+                },
+                description: {
+                    type: String
+                },
+                color: {
+                    type: Number,
+                    default: 0
+                }
+            }
+        },
+        historic: [{
+            signal: {
+                type: String,
+            },
+            value: {
+                type: Number,
+            },
+            earnings: {
+                type: Number,
+            },
+            status: {
+                type: String,
+            }
+        }]
     }]
 });
 
