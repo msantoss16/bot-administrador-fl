@@ -35,8 +35,12 @@ const DataSchema = ({
                 type: String,
             },
             value: {
-                type: Number,
-                required: true
+                real: {
+                    type: Number,
+                },
+                dolar: {
+                    type: Number,
+                },
             },
             folder: {
                 name: {
@@ -47,7 +51,7 @@ const DataSchema = ({
                     type: String
                 },
                 color: {
-                    type: Number,
+                    type: String,
                     default: 0
                 }
             }
