@@ -1,3 +1,5 @@
+const { findByIdAndUpdate } = require('../models/user');
+
 module.exports = () => {
     const tokens = require('../controllers/tokens');
     const controller = {};
@@ -5,18 +7,18 @@ module.exports = () => {
     const User = require('../models/user');
     
     controller.obterEmails = async (req, res) => {
-        User.findById(req.userId)
+        await User.findById(req.userId)
             .then(dados => {
                 if (dados != [])
                     res.status(200).send({emails: dados.data.iqoption.map(dado => dado.email)});
             }).catch(err => {
-                res.status(400).send();
+                res.sendStatus(400);
         });
     };
 
     controller.desvEmail = async (req, res) => {
         let email = req.params.email
-        User.findByIdAndUpdate(req.userId, {
+        await User.findByIdAndUpdate(req.userId, {
             '$pull': {
                 'data.iqoption.email': email
             }
@@ -44,9 +46,35 @@ module.exports = () => {
         });
     };
 
+    controller.obterTelegram = async (req, res) => {
+        await User.findById(req.userId)
+            .then(dados => {
+                if (dados != [])
+                    res.status(200).send({number: dados.data.telegram});
+            }).catch(err => {
+                res.sendStatus(400);
+        });
+    };
+
+    controller.vincTelegram = async (req, res) => {
+        let {number} = req.body;
+        console.log(number[0])
+        if (number[0] == '+') {number = number.slice(1)}
+        await User.findByIdAndUpdate(req.userId, {
+            'data.telegram': number
+        }, function(err, result) {
+                if (err) {
+                    return res.sendStatus(400);
+                } else {
+                    console.log(result);
+                    return res.status(200).send({number});
+                }
+        }).exec();
+    };
+
     controller.check = async (req, res) => {
         let {status, email, password} = req.body;
-        User.findByIdAndUpdate(req.userId, {
+        await User.findByIdAndUpdate(req.userId, {
             '$addToSet': {
                 'data.iqoption': {
                     email,
@@ -56,7 +84,7 @@ module.exports = () => {
             }
         } , function(err, result) {
                 if (err) {
-                    console.log(err);
+                    return res.send(400);
                 } else {
                     result.data.iqoption.findIndex(data => data.email == email) === -1 ? result.data.iqoption.push({
                         email,
@@ -71,6 +99,44 @@ module.exports = () => {
                 }
         }).exec();
     }
+
+    controller.checkTelegram = async (req, res) => {
+        let {number, username} = req.body;
+        if (username) {
+            await User.findOne({'data.telegram':number}).exec()
+            .then(function(result) {
+                if (result)
+                    return res.status(200).send({_id: result._id});
+            }).catch(err => {
+                console.log(err);
+                return res.sendStatus(400);
+            });
+            await User.findOne({'data.telegram':username}).exec()
+            .then(function(result) {
+                if (result) {
+                    return res.status(200).send({_id: result._id});
+                } else {
+                    return res.sendStatus(404);
+                }
+            }).catch(err => {
+                console.log(err);
+                return res.sendStatus(400);
+            });
+        } else {
+            await User.findOne({'data.telegram':number}).exec()
+            .then(function(result) {
+                if (result) {
+                    return res.status(200).send({_id: result._id});
+                } else {
+                    return res.sendStatus(404);
+                }
+            }).catch(err => {
+                console.log(err);
+                return res.sendStatus(400);
+            });
+        }
+        //return res.sendStatus(404)
+    };
 
     return controller;
 };

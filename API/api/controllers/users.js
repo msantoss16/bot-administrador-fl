@@ -15,6 +15,7 @@ module.exports = () => {
         });
     };
     
+
     controller.showUsers = async (req, res) => {
         try {
             await User.find()
@@ -54,8 +55,8 @@ module.exports = () => {
         }
     };
 
-    controller.deleteUser = (req, res) => {
-        User.deleteOne({
+    controller.deleteUser = async (req, res) => {
+        await User.deleteOne({
             "_id":req.params.id
         }, (err, response) => {
             if (err) {throw err;}

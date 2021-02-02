@@ -1,7 +1,31 @@
 const serverURL = 'http://localhost:8081';
 
 function gotoPasta(id) {
-  window.location.href = './contas.html'
+  window.location.href = './pasta.html?id='+id;
+}
+
+axios.get(`${serverURL}/folders`, {headers: {'Authorization': ('Bearer '+Cookies.get('token'))}})
+  .then(response => {
+    const pastasDiv = document.getElementById('pastas');
+    for (value of response.data) {
+      let div = document.createElement('div');
+      div.classList.add('pasta');
+      div.innerHTML = `<div class="pasta__inner" style="background-color: ${value.folder.color};" onclick="gotoPasta(\'${value._id};\')">
+        <span>${value.folder.name}</span>
+        <p class="description">${value.folder.description}</p>
+        <i class="material-icons">folder</i>
+      </div>`;
+      pastasDiv.appendChild(div);
+    }
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.log(error);
+    md.showNotification('top', 'center', 'danger', 'Erro ao carregar as pastas! Tente novamente mais tarde.');
+  })
+
+function pegarDados() {
+
 }
 
 $('#createfolder').click(function() {
@@ -32,9 +56,10 @@ $('#createfolder').click(function() {
     headers: {'Authorization': ('Bearer '+_token)}
   })
     .then(response => {
-      console.log(response);
+      location.reload();
     })
     .catch(error => {
       console.log(error.response.data.error);
+      md.showNotification('top', 'center', 'danger', 'Erro ao criar a pasta! Tente novamente mais tarde.');
     });
 });

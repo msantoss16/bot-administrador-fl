@@ -22,6 +22,13 @@ axios.get(`${serverURL}/vincEmail`, {headers: {'Authorization': ('Bearer '+Cooki
         console.log(error);
 });
 
+axios.get(`${serverURL}/vincTelegram`, {headers: {'Authorization': ('Bearer '+Cookies.get('token'))}})
+    .then(response => {
+        insertTable([response.data.number], 'tltbody');
+    }).catch(error => {
+        console.log(error);
+});
+
 function ClickDownAnimation(element) {
     item = document.getElementById(element);
     item.style.animation = 'downShow 1s ease';
@@ -72,5 +79,12 @@ $('form[for=iq]').submit(function(e) {
 $('form[for=tl]').submit(function(e) {
     e.preventDefault();
     let _number = $('.tlNumber').val();
-    console.log(_number);
+    let _token = Cookies.get('token');
+    axios.post(`${serverURL}/vincTelegram`, {number: _number}, {headers: {'Authorization': ('Bearer '+_token)}})
+        .then(response => {
+            if(response.data.number){
+                $('.tlNumber').val('');
+                insertTable([response.data.number], 'tltbody');
+            }
+        });
 })

@@ -13,4 +13,20 @@ var getUrlParameter = function getUrlParameter(sParam) {
     }
 };
 
+$('.delete-btn').click(function() {
+    swal({
+        title: 'Você tem certeza?',
+        text: 'A pasta será deletada permanentemente!',
+        icon: 'warning',
+        //dangerMode: true,
+        buttons: [{text: 'deletar', visible: true, value: null}, {text: 'text'}],
+    }).then(function() {
+        swal(
+            'Apagado',
+            'A pasta foi apagada com sucesso',
+            'success'
+        )
+    });
+});
+
 console.log(getUrlParameter('id'));

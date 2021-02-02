@@ -42,8 +42,16 @@ module.exports = app => {
         .get(contas.obterEmails);
     app.route('/vincEmail/:id')
         .delete(contas.desvEmail);
+    app.route('/vincTelegram')
+        .post(contas.vincTelegram);
+    app.route('/vincTelegram')
+        .get(contas.obterTelegram);
+    app.route('/checkTelegram')
+        .post(contas.checkTelegram);
 
     //Rota das pastas
     app.route('/folder')
         .post(pastas.novaPasta);
+    app.route('/folders/')
+        .get(pastas.carregarPasta);
 };

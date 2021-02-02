@@ -96,33 +96,15 @@
                 </div>
             </nav>
             <div class="content">
+                <div class="content-text">
+                    <p class="text-pastas">Crie uma pasta com nome e descrição para seus agendamentos</p>
+                </div>
                 <div class="wrapper-pastas">
-                    <div class="pastas">
-                        <div class="pasta">
-                            <div class="pasta__inner" onclick="gotoPasta('teste');">
-                                <span>Titulo</span>
-                                <p class="description">Descrição</p>
-                                <i class="material-icons">folder</i>
-                            </div>
-                        </div>
-                        <div class="pasta">
-                            <div class="pasta__inner">
-                                <span>Titulo</span>
-                                <p class="description">Descrição</p>
-                                <i class="material-icons">folder</i>
-                            </div>
-                        </div>
-                        <div class="pasta">
-                            <div class="pasta__inner">
-                                <span>Titulo</span>
-                                <p class="description">Descrição</p>
-                                <i class="material-icons">folder</i>
-                            </div>
-                        </div>
+                    <div class="pastas" id="pastas">
                     </div>
                 </div>
                 <div class="col-md-3 mx-auto" style="display: flex; justify-content: center;">
-                    <a href="#" class="btn" style="background-color: #FEA422; left: 0.3rem; color: #fff; font-weight: 500;" data-toggle="modal" data-target="#modalnovapasta">Nova Pasta</a>
+                    <a href="#" class="btn" onclick="pegarDados();" style="background-color: #FEA422; left: 0.3rem; color: #fff; font-weight: 500;" data-toggle="modal" data-target="#modalnovapasta">Nova Pasta</a>
                 </div>  
             </div>
             <div id="modalnovapasta" class="modal">
@@ -135,11 +117,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p class="mg-b-15">Crie uma pasta com nome e descrição para seus agendamentos</p>
                             <div class="row row-sm">
                                 <div class="col-lg-6 mg-b-15">
                                     <label class="form-label">Cor da Pasta</label><br>
-                                    <input type="color" id="head" id="colorInput" name="head" value="#949fb0" style="margin-top: .25rem; margin-bottom: 1rem; width: 25%; height: 38%;">
+                                    <input type="color" id="colorInput" name="head" value="#949fb0" style="margin-top: .25rem; margin-bottom: 1rem; width: 25%; height: 38%;">
                                 </div>
                                 <div class="col-lg-6 mg-b-15">
                                 </div>
@@ -192,8 +173,8 @@
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+        <script src="../scripts/core/jquery.min.js"></script>
+        <script src="../scripts/core/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="../scripts/plugins/bootstrap-notify.js"></script>

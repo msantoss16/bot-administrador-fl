@@ -6,7 +6,7 @@ module.exports = () => {
 
     controller.novaPasta = async (req, res) => {
         let {accType, account, telegram, value, folder} = req.body;
-        User.findByIdAndUpdate(req.userId, {
+        await User.findByIdAndUpdate(req.userId, {
             '$addToSet': {
                 'data.folders': {
                     configs: {
@@ -35,6 +35,17 @@ module.exports = () => {
             }
         }).exec();
     };
+
+    controller.carregarPasta = async (req, res) => {
+        await User.findById(req.userId)
+            .then(function(dados) {
+                res.status(200).send(dados.data.folders.map(function(item){
+                    return {_id: item._id, folder: item.configs.folder};
+                }));
+            }).catch(function(err) {
+                return res.status(404).send({"error": "not-found"});
+            });
+    }
 
     return controller;
 } 

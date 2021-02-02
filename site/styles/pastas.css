@@ -235,3 +235,11 @@ input.text, textarea.text {
     line-height: 1;
     letter-spacing: .2px;
 }
+
+.dark-edition .text-pastas{
+    color: #fff;
+}
+
+.text-pastas {
+    margin-left: 2rem;
+}

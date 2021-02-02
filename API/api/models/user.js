@@ -52,7 +52,7 @@ const DataSchema = ({
                 },
                 color: {
                     type: String,
-                    default: 0
+                    default: "#949fb0"
                 }
             }
         },

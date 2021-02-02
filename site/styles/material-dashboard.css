@@ -22189,3 +22189,40 @@ div[data-notify=container] {
   padding: 20px 15px; 
   padding-left: 66px;
 }
+
+.wrapper-buttons {
+  position: fixed;
+  right: 3rem;
+  bottom: 3rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.wrapper-buttons a {
+  text-decoration: none;
+}
+
+.circle-btn {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  color: #fff;
+  margin: .5rem;
+}
+
+.circle-btn:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.delete-btn {
+  background-color: #f44336;
+}
+
+.edit-btn {
+  background-color: #6252f9;
+}
