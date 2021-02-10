@@ -1,30 +1,74 @@
 const mongoose = require('../database/connectDB');
+const { Schema } = require('../database/connectDB');
+const User = require('./user');
 
-const SinalSchema = ({
-    periodo: {
-        type: Number,
-        required: false,
+const SignalSchema = new mongoose.Schema({
+    configsSignal: {
+        periodo: {
+            type: Number,
+            required: false,
+            default: 5,
+        },
+        paridade: {
+            type: String,
+            required: true,
+        },
+        horario: {
+            type: Date,
+            required: true,
+        },
+        sinal: {
+            type: String,
+            required: true,
+        },
+        gale: {
+            type: Number,
+            default: 0
+        },
     },
-    paridade: {
-        type: String,
-        required: true,
+    configsFolder: {
+        valor: {
+            type: Number,
+            get: getPrice,
+            set: setPrice,
+        },
+        account: {
+            type: String,
+            required: true,
+        },
+        status: {
+            type: Number,
+            default: 0
+        },
+        win: {
+            type: Number,
+            default: 0,
+            get: getPrice,
+            set: setPrice
+        },
+        gale: {
+            type: Number,
+            required: false,
+        },
+        accType: {
+            type: Boolean,
+            default: false,
+        }
     },
-    horario: {
-        type: Date,
-    },
-    sinal: {
-        type: String,
-        required: true
-    },
-    gale: {
-        type: Number,
-        required: false,
-    },
-    win: {
-        type: Boolean,
-        required: false,
+    userid: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
     }
 });
 
-const Sinal = mongoose.model('Sinal', SinalSchema);
-module.exports = Sinal;
+function getPrice(num){
+    return (num/100).toFixed(2);
+}
+
+function setPrice(num){
+    return num*100;
+}
+
+
+const Signal = mongoose.model('Signal', SignalSchema);
+module.exports = Signal;

@@ -1,6 +1,8 @@
 const mongoose = require('../database/connectDB');
 const bcrypt = require('bcrypt');
+const { Schema } = require('../database/connectDB');
 mongoose.set('useFindAndModify', false);
+const Signal = require('./sinal')
 
 const DataSchema = ({
     telegram: {
@@ -22,6 +24,12 @@ const DataSchema = ({
             type: String,
         }  
     }],
+    configs: {
+        defaultFolder: {
+            type: Schema.Types.ObjectId,
+            ref: 'User.data.folders'
+        },
+    },
     folders: [{
         configs: {
             accType: {
@@ -29,9 +37,6 @@ const DataSchema = ({
                 default: false
             },
             account: {
-                type: String,
-            },
-            telegram: {
                 type: String,
             },
             value: {
@@ -56,19 +61,9 @@ const DataSchema = ({
                 }
             }
         },
-        historic: [{
-            signal: {
-                type: String,
-            },
-            value: {
-                type: Number,
-            },
-            earnings: {
-                type: Number,
-            },
-            status: {
-                type: String,
-            }
+        sinaisid: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Signal'
         }]
     }]
 });

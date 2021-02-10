@@ -4,9 +4,7 @@ from telethon import TelegramClient, events, sync
 from telethon.utils import get_display_name
 import logging
 import requests
-import subprocess
 import sys
-import requests
 import json
 
 logging.basicConfig(level=logging.ERROR)
@@ -26,7 +24,7 @@ p = {
     ]
 }
 
-def pegarDados(temp, periodo, gale):
+def pegarDados(temp, periodo="m5", gale=0):
     t = {
         'periodo': periodo,
         'paridade': None,
@@ -36,23 +34,27 @@ def pegarDados(temp, periodo, gale):
     }
     for word in temp:
         if 'm' in word.lower():
-            if word[1].isnumeric():
-                t['periodo'] = word
+            try:
+                if word[1].isnumeric():
+                    t['periodo'] = word.lower()
+            except:
+                pass
         elif len(word) == 7:
             if '\\' or '\/' in word:
-                t['paridade'] = word
+                t['paridade'] = word.lower()
         elif len(word) == 6:
-            t['paridade'] = word
+            t['paridade'] = word.lower()
         elif ':' in word:
-            t['horario'] = word
+            t['horario'] = word.lower()
         elif 'put' in word.lower() or 'call' in word.lower():
-            t['sinal'] = word
+            t['sinal'] = word.lower()
         elif 'sem' in word.lower():
             t['gale'] = 0
         elif word.isnumeric():
-            t['gale'] = word
+            t['gale'] = word.lower()
     return t
         
+
 def acharSinais(mensagem):
     nList = []
     nnList = []
@@ -87,27 +89,61 @@ def acharSinais(mensagem):
                 t = pegarDados(temp, periodo, gale)
             if (t['paridade'] is not None and t['horario'] is not None and t['sinal'] is not None):
                 nnList.append(t)
-                print(t)
     return nnList
+
+async def verSinal(mensagem, phone, username=""):
+    if (username is not ""):
+        req = requests.post(url+'/checkTelegram', json={"number": phone, "username": username})
+        try:
+            id = json.dumps(req.json()['_id'])
+            dados = pegarDados(mensagem)
+            return 'Sinal salvo com sucesso!'
+        except:
+            return 'Teve um erro ao enviar o sinal!'
+    else:
+        req = requests.post(url+'/checkTelegram', json={"number": phone})
+        try:
+            id = json.dumps(req.json()['_id'])
+            dados = pegarDados(mensagem)
+            print(dados)
+            return 'Sinal salvo com sucesso!'
+        except:
+            return 'Teve um erro ao enviar o sinal!'
+        
 
 async def verLista(mensagem, phone, username=""):
     if (username is not ""):
-        req = requests.post(url+'/checkTelegram', json={"number": phone, 'username': username})
-        print(acharSinais(mensagem))
+        req = requests.post(url+'/checkTelegram', json={"number": phone, "username": username})
         try:
             id = json.dumps(req.json()['_id'])
-            acharSinais(mensagem)
+            dados = acharSinais(mensagem)
+            return 'Lista de sinais salva com sucesso!'
         except:
-            return
+            return 'Teve um erro ao enviar a lista de sinais!'
     else:
         req = requests.post(url+'/checkTelegram', json={"number": phone})
-        id = json.dumps(req.json()['_id'])
-        print(id)
-        print(acharSinais(mensagem))
+        try:
+            id = json.dumps(req.json()['_id'])
+            dados = acharSinais(mensagem)
+            print(dados)
+            return 'Lista de sinais salva com sucesso!'
+        except:
+            return 'Teve um erro ao enviar a lista de sinais!'
 
+async def mandarGD(texto, isLista=False):
+    if isLista:
+        try:
+            dados = acharSinais(texto)
+            return 'Lista de sinais salva com sucesso!'
+        except:
+            return 'Teve um erro ao enviar a lista de sinais!'
+    else:
+        try:
+            dados = pegarDados(texto.split())
+            return 'Sinal salvo com sucesso!'
+        except:
+            return 'Teve um erro ao enviar o sinal!'
 
-def mandarLista(lista):
-    pass
 
 def sepMandarApi(texto):
     for word in texto.split():
@@ -127,60 +163,13 @@ def sepMandarApi(texto):
     return req
 
 async def bot():
-    async with TelegramClient(configs.userLogin['number'], configs.userLogin['api_id'], configs.userLogin['api_hash']) as client:
-        # async def defChat():
-        #     dialog_count = 3
-        #     dialogs = await client.get_dialogs(limit=dialog_count)
-        #     i = None
-        #     while i is None:
-        #         print('Escolha o chat')
-        #         for i, dialog in enumerate(dialogs, start=1):
-        #             print('{}. {}'.format(i, get_display_name(dialog.entity)))
-        #         i = int(input('Digite o número do chat: '))
-        #     print(dialogs[i].entity)
-        # entity = None
-        # while entity is None:
-        #     entity = await defChat()
+    async with TelegramClient(configs.userLogin['number'], configs.userLogin['api_id'], configs.userLogin['api_hash']) as client:  
         @client.on(events.NewMessage(from_users=configs.userLogin['number']))
-        async def my_event_handler(event):
-            if 'GD SINAIS' in event.raw_text:
-                print(sepMandarApi(event.raw_text))
-                #print(event.sender)
-
-        @client.on(events.NewMessage(from_users="+5511979537463"))
-        async def getSinaisFromGD(event):
-            periodo = "M5"
-            paridade = ""
-            horario = ""
-            sinal = ""
-            gale = 0
-            print(event.raw_text)
-            for word in event.raw_text.split():
-                if 'm' in word.lower():
-                    if word[1].isnumeric():
-                        periodo = word
-                elif len(word) == 7:
-                    if '\\' or '\/' in word:
-                        paridade = word
-                elif len(word) == 6:
-                    paridade = word
-                elif ':' in word:
-                    horario = word
-                elif 'put' in word.lower() or 'call' in word.lower():
-                    sinal = word
-                elif 'sem' in word.lower():
-                    gale = 0
-                elif word.isnumeric():
-                    gale = word
-            await event.reply(f'periodo: {periodo}\nparidade: {paridade}\nhorario: {horario}\nsinal: {sinal}\nGale: {gale}')
-            print(periodo)
-            print(paridade)
-            print(horario)
-            print(sinal)
-            
-        @client.on(events.NewMessage(from_users=["+5511979537463"]))
-        async def obterSinaisFromUsers(event):
-            await event.reply('teste')    
+        async def obterSinaisFromGd(event):
+            if 'lista' in event.raw_text:
+                await event.reply(await mandarGD(event.raw_text, True))
+            else:
+                await event.reply(await mandarGD(event.raw_Text))   
         
         @client.on(events.NewMessage(pattern="/fatorgalepadrao"))
         async def setFatorGale(event): 
@@ -222,34 +211,30 @@ async def bot():
 
         @client.on(events.NewMessage(pattern="/lista"))
         async def setLista(event):
-            userEntity = await client.get_entity(event.from_id)
-            if (userEntity.username):
-                await verLista(event.raw_text, str(userEntity.phone), str(userEntity.username))
-                #output = str(subprocess.Popen([sys.executable, 'verLista.py', event.raw_text.encode(), "2", str(userEntity.phone), str(userEntity.username)], stdout = subprocess.PIPE, stderr = subprocess.STDOUT).communicate()[0].decode('utf-8'))
+            if (len(event.raw_text) > 6):
+                userEntity = await client.get_entity(event.from_id)
+                if (userEntity.username):
+                    await event.reply(await verLista(event.raw_text, str(userEntity.phone), str(userEntity.username)))
+                else:
+                    await event.reply(await verLista(event.raw_text, str(userEntity.phone)))
             else:
-                await verLista(event.raw_text, str(userEntity.phone))
-                #output = str(subprocess.Popen([sys.executable, 'verLista.py', event.raw_text.encode(), "1", str(userEntity.phone)], stdout = subprocess.PIPE, stderr = subprocess.STDOUT).communicate()[0].decode('utf-8'))
-            #print(output)
+                await event.reply('Por favor, insira uma mensagem!')
 
         @client.on(events.NewMessage(pattern="/sinal"))
         async def setSinal(event):
-            pass
+            if (len(event.raw_text) > 6):
+                userEntity = await client.get_entity(event.from_id)
+                if (userEntity.username):
+                    await event.reply(await verSinal(event.raw_text.split(), str(userEntity.phone), str(userEntity.username)))
+                else:
+                    await event.reply(await verSinal(event.raw_text.split(), str(userEntity.phone)))
+            else:
+                await event.reply('Por favor, insira uma mensagem!')
 
         @client.on(events.NewMessage(pattern="/padroes"))
         async def getPadroes(event):
-            print('teste')
+            pass
 
-        @client.on(events.NewMessage(pattern='(?i)hello.+'))
-        async def handler(event):
-            # Respond whenever someone says "Hello" and something else
-            await event.reply('Hey!')
-
-        @client.on(events.NewMessage(outgoing=True, pattern='!ping'))
-        async def handler(event):
-            # Say "!pong" whenever you send "!ping", then delete both messages
-            m = await event.respond('!pong')
-            await asyncio.sleep(5)
-            await client.delete_messages(event.chat_id, [event.id, m.id])
 
         await client.run_until_disconnected()
 def main():

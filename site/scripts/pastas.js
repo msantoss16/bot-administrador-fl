@@ -25,24 +25,37 @@ axios.get(`${serverURL}/folders`, {headers: {'Authorization': ('Bearer '+Cookies
   })
 
 function pegarDados() {
-
+  axios.get(`${serverURL}/vincEmail`, {headers: {'Authorization': ('Bearer '+Cookies.get('token'))}})
+    .then(response => {
+        let _select = document.getElementById('select_account_iqoption');
+        _select.innerHTML = "";
+        if (response.data.emails) {
+          for (email in response.data.emails) {
+            let option = document.createElement('option');
+            option.text = response.data.emails[email];
+            option.value = response.data.emails[email];
+            _select.add(option);
+          }
+        } else {
+          _select.innerHTML = "<option value='none'>Nenhum adicionado</option>"
+        }
+    }).catch(error => {
+        console.log(error);
+  });
 }
 
 $('#createfolder').click(function() {
   let _folderColor = $('#colorInput').val();
   let _accType = $('#select_balance_type').val();
   let _account = $('#select_account_iqoption').val();
-  let _telegram = $('#select_telegram_group').val();
   let _valorDolar = $('#folder_vdolar').val();
   let _valorReal = $('#folder_vreais').val();
   let _folderName = $('#folder_name').val();
   let _folderDescription = $('#folder_description').val();
-  let _token = Cookies.get('token');
-
+  let _token = Cookies.get('token');  
   axios.post(`${serverURL}/folder`, {
     accType: _accType,
     account: _account,
-    telegram: _telegram,
     value: {
       real: _valorReal,
       dolar: _valorDolar

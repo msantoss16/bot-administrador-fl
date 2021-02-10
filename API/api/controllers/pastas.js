@@ -5,14 +5,13 @@ module.exports = () => {
     const User = require('../models/user');
 
     controller.novaPasta = async (req, res) => {
-        let {accType, account, telegram, value, folder} = req.body;
+        let {accType, account, value, folder} = req.body;
         await User.findByIdAndUpdate(req.userId, {
             '$addToSet': {
                 'data.folders': {
                     configs: {
                         accType: accType,
                         account: account,
-                        telegram: telegram,
                         value: {
                             real: value.real,
                             dolar: value.dolar
