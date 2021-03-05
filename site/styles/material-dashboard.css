@@ -1,18 +1,3 @@
-/*!
-
- =========================================================
- * Material Dashboard Dark Edition - v2.1.0
- =========================================================
-
- * Product Page: https://www.creative-tim.com/product/material-dashboard-dark
- * Copyright 2019 Creative Tim (http://www.creative-tim.com)
-
- =========================================================
-
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
- */
-/*     brand Colors              */
 .card {
   font-size: .875rem;
 }
@@ -22225,4 +22210,99 @@ div[data-notify=container] {
 
 .edit-btn {
   background-color: #6252f9;
+}
+
+
+.form-select {
+  margin-left: 1rem;
+  padding: .375rem .75rem;
+  font-size: .875rem;
+  font-weight: 200;
+  line-height: 1.5;
+  background-color: #fff;
+  color: #525663;
+  background-clip: padding-box;
+  border: 1px solid rgba(33, 33, 33, 0.1);  
+  width: 10rem;
+}
+
+.dark-edition select.form-select {
+  background-image:
+      linear-gradient(45deg, transparent 50%, white 50%),
+      linear-gradient(135deg, white 50%, transparent 50%),
+      linear-gradient(to right, transparent, transparent);
+  background-position:
+      calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) calc(1em + 2px),
+      calc(100% - 2.5em) 0.5em;
+  background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+  background-repeat: no-repeat; 
+}
+
+.dark-edition select.form-select:focus {
+  background-image:
+      linear-gradient(45deg, white 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, white 50%),
+      linear-gradient(to right, transparent, transparent);
+  background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+  background-size:
+          5px 5px,
+      5px 5px,
+      1px 1.5em;
+  background-repeat: no-repeat;
+  border-color: green;
+  outline: 0;
+}
+
+select.form-select {
+  background-image:
+      linear-gradient(45deg, transparent 50%, gray 50%),
+      linear-gradient(135deg, gray 50%, transparent 50%),
+      linear-gradient(to right, #fff, #fff);
+  background-position:
+      calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) calc(1em + 2px),
+      calc(100% - 2.5em) 0.5em;
+  background-size:
+      5px 5px,
+      5px 5px,
+      1px 1.5em;
+  background-repeat: no-repeat; 
+}
+
+select.form-select:focus {
+  background-image:
+      linear-gradient(45deg, white 50%, transparent 50%),
+      linear-gradient(135deg, transparent 50%, white 50%),
+      linear-gradient(to right, #fff, #fff);
+  background-position:
+      calc(100% - 15px) 1em,
+      calc(100% - 20px) 1em,
+      calc(100% - 2.5em) 0.5em;
+  background-size:
+          5px 5px,
+      5px 5px,
+      1px 1.5em;
+  background-repeat: no-repeat;
+  border-color: green;
+  outline: 0;
+}
+
+.dark-edition .form-select {
+  background-color: #525663;
+  color: #fff;
+}
+
+.dark-edition .iconEdit {
+  color: #fff;
+}
+
+.iconEdit { 
+  color: #525663;
 }

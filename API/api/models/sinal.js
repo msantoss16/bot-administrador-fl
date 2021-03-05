@@ -55,6 +55,10 @@ const SignalSchema = new mongoose.Schema({
             default: false,
         }
     },
+    signalId: {
+        type: String,
+        required: false,
+    },
     userid: {
         type: Schema.Types.ObjectId,
         ref: 'User',

@@ -24,7 +24,7 @@ p = {
     ]
 }
 
-def pegarDados(temp, periodo="m5", gale=0):
+def pegarDados(temp, periodo="5", gale=0):
     t = {
         'periodo': periodo,
         'paridade': None,
@@ -58,7 +58,7 @@ def pegarDados(temp, periodo="m5", gale=0):
 def acharSinais(mensagem):
     nList = []
     nnList = []
-    periodo = 'm5'
+    periodo = '5'
     gale = 0
     tcolumn = mensagem.lower().split('\n')
     for trow in tcolumn:
@@ -67,7 +67,7 @@ def acharSinais(mensagem):
             if 'put' in i or 'call' in i:
                 nList.append(trow)
             if 'm' in i and i[1].isnumeric():
-                periodo = i
+                periodo = i[1:]
             if p['gale'][0] in i or p['gale'][1] in i or p['gale'][2] in i or p['gale'][3] in i or p['gale'][4] in i:
                 try: 
                     if trowsplite[(trowsplite.index(i)-1)].isnumeric():
@@ -92,31 +92,44 @@ def acharSinais(mensagem):
     return nnList
 
 async def verSinal(mensagem, phone, username=""):
-    if (username is not ""):
+    if (username != ""):
         req = requests.post(url+'/checkTelegram', json={"number": phone, "username": username})
         try:
             id = json.dumps(req.json()['_id'])
-            dados = pegarDados(mensagem)
-            return 'Sinal salvo com sucesso!'
+            id = id.replace('\"', '')
+            dados = [pegarDados(mensagem)]
+            if (dados[0]['paridade'] is not None and dados[0]['horario'] is not None and dados[0]['sinal'] is not None):
+                req = requests.post(url+'/sinais/lista', json={"userid": id, "lista": dados})
+                return 'Sinal salvo com sucesso!'
+            else:
+                return 'Dados não reconhecidos'
         except:
             return 'Teve um erro ao enviar o sinal!'
     else:
         req = requests.post(url+'/checkTelegram', json={"number": phone})
         try:
             id = json.dumps(req.json()['_id'])
-            dados = pegarDados(mensagem)
+            id = id.replace('\"', '')
+            dados = [pegarDados(mensagem)]
             print(dados)
-            return 'Sinal salvo com sucesso!'
-        except:
+            if (dados[0]['paridade'] is not None and dados[0]['horario'] is not None and dados[0]['sinal'] is not None):
+                req = requests.post(url+'/sinais/lista', json={"userid": id, "lista": dados})
+                return 'Sinal salvo com sucesso!'
+            else:
+                return 'Dados não reconhecidos'
+        except Exception as err:
+            print(err)
             return 'Teve um erro ao enviar o sinal!'
         
 
 async def verLista(mensagem, phone, username=""):
-    if (username is not ""):
+    if (username != ""):
         req = requests.post(url+'/checkTelegram', json={"number": phone, "username": username})
         try:
             id = json.dumps(req.json()['_id'])
+            id = id.replace('\"', '')
             dados = acharSinais(mensagem)
+            req = requests.post(url+'/sinais/lista', json={"userid": id, "lista": dados})
             return 'Lista de sinais salva com sucesso!'
         except:
             return 'Teve um erro ao enviar a lista de sinais!'
@@ -124,8 +137,9 @@ async def verLista(mensagem, phone, username=""):
         req = requests.post(url+'/checkTelegram', json={"number": phone})
         try:
             id = json.dumps(req.json()['_id'])
+            id = id.replace('\"', '')
             dados = acharSinais(mensagem)
-            print(dados)
+            req = requests.post(url+'/sinais/lista', json={"userid": id, "lista": dados})
             return 'Lista de sinais salva com sucesso!'
         except:
             return 'Teve um erro ao enviar a lista de sinais!'
@@ -164,12 +178,12 @@ def sepMandarApi(texto):
 
 async def bot():
     async with TelegramClient(configs.userLogin['number'], configs.userLogin['api_id'], configs.userLogin['api_hash']) as client:  
-        @client.on(events.NewMessage(from_users=configs.userLogin['number']))
+        @client.on(events.NewMessage(from_users=configs.userLogin['copyNumber']))
         async def obterSinaisFromGd(event):
             if 'lista' in event.raw_text:
                 await event.reply(await mandarGD(event.raw_text, True))
             else:
-                await event.reply(await mandarGD(event.raw_Text))   
+                await event.reply(await mandarGD(event.raw_text))   
         
         @client.on(events.NewMessage(pattern="/fatorgalepadrao"))
         async def setFatorGale(event): 
@@ -225,9 +239,9 @@ async def bot():
             if (len(event.raw_text) > 6):
                 userEntity = await client.get_entity(event.from_id)
                 if (userEntity.username):
-                    await event.reply(await verSinal(event.raw_text.split(), str(userEntity.phone), str(userEntity.username)))
+                    await event.reply(await verSinal(event.raw_text[5:].split(), str(userEntity.phone), str(userEntity.username)))
                 else:
-                    await event.reply(await verSinal(event.raw_text.split(), str(userEntity.phone)))
+                    await event.reply(await verSinal(event.raw_text[5:].split(), str(userEntity.phone)))
             else:
                 await event.reply('Por favor, insira uma mensagem!')
 

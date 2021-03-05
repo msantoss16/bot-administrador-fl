@@ -2,15 +2,17 @@ module.exports = () => {
     const Sinal = require('../models/sinal');
     const User = require('../models/user');
     const controller = {};
+    const request = require('request');
+    const scheduler = require('node-schedule');
+    dataa = new Date(2021, 1, 21, 21, 20, 00);
+    const b = scheduler.scheduleJob(dataa, () => {
 
+    });
     async function salvarLista(jsonLista, userid, configs) {
         dataAtual = new Date()
         for (dado in jsonLista){
             horas = jsonLista[dado].horario;
-            console.log(dado);
-            dataAtual.setUTCHours(parseInt(horas[0]+horas[1])+3);
-            dataAtual.setUTCMinutes(horas[3]+horas[4]);
-            dataAtual.setUTCSeconds(0);
+            dataAtual.setHours(parseInt(horas[0]+horas[1]), parseInt(horas[3]+horas[4]), 0);
             await Sinal.create({
                 configsSignal: {
                     periodo: jsonLista[dado].periodo,
@@ -27,56 +29,103 @@ module.exports = () => {
                 userid,
             })
                 .then(function(sinal) {
+                    scheduler.scheduleJob(sinal.configsSignal.horario, () => {
+                        request({
+                            url: 'http://localhost:5000/sinal',
+                            method: 'POST',
+                            json: {
+                                login: {
+                                    email: configs.account,
+                                    password: configs.password
+                                },
+                                sinal: {
+                                    paridade: sinal.configsSignal.paridade,
+                                    sinal: sinal.configsSignal.sinal,
+                                    periodo: String(sinal.configsSignal.periodo)
+                                },
+                                configs: {
+                                    valor: sinal.configsFolder.valor,
+                                }
+                            }
+                        }, function(error, response, body) {
+                            status = body.replace('\r\n', '').split('!');
+                            if (status[0] == "True") {
+                                Sinal.findByIdAndUpdate(sinal.id, {
+                                    'configsFolder.status': 1,
+                                    signalId: status[1]
+                                }).exec();
+                            } else {
+                                Sinal.findByIdAndUpdate(sinal.id, {
+                                    'configsFolder.status': 3
+                                }).exec();
+                            }
+                        });
+                    });
                     User.findByIdAndUpdate(userid, {
-                        '$push': {
-                            'data.folders[0]':{sinaisid: sinal.id}
+                        '$addToSet': {
+                            'data.folders.0.sinaisid': sinal.id
                         }
                     }, function(err, result) {
-                        console.log(result);
+                        if (err) {
+                            return 400;
+                        } else {
+                            return 200;
+                        }
                     }).exec();
-                    console.log(sinal.id);
+                }).catch(function (err) {
+                    return 400;
                 });
 
         }
-        // User.findByIdAndUpdate(userid, {
-            
-        // }, function(err, result) {
-
-        // });
     }
 
     controller.receberLista = async (req, res) => {
         let {lista, userid} = req.body;
         console.log(userid);
+        console.log(lista)
         User.findById(userid, function(err, user) {
             if (err) {
                 console.log(err);
             } else {
                 try {
+                    var fValue, account, accType, password;
                     if (user.data.configs.defaultFolder) {
                         let defaultFolder = user.data.configs.defaultFolder;
                         for (folderacc in user.data.folders) {
                             if (folderacc._id == defaultFolder) {
-                                let fValue = folderacc.configs.value.real;
-                                let account = folderacc.configs.account;
-                                let accType = folderacc.configs.accType;
+                                fValue = folderacc.configs.value.real;
+                                account = folderacc.configs.account;
+                                accType = folderacc.configs.accType;
+                                for (acc in user.data.iqoption) {
+                                    if (user.data.iqoption[acc].email == account) {
+                                        password = user.data.iqoption[acc].password;
+                                    }
+                                } 
                                 break
                             }
                         }
                     } else {
-                        let fValue = user.data.folders[0].configs.value.real;
-                        let account = user.data.folders[0].configs.account;
-                        let accType = user.data.folders[0].configs.accType;
-                        salvarLista([{periodo: 5, paridade: 'EUR/USD', horario: '21:55', sinal: 'put', gale: 1}], userid, {valor: fValue, account, accType})
-                        console.log(fValue);
-                        console.log(account);
-                        console.log(accType);
+                        fValue = user.data.folders[0].configs.value.real;
+                        account = user.data.folders[0].configs.account;
+                        accType = user.data.folders[0].configs.accType
+                        for (acc in user.data.iqoption) {
+                            if (user.data.iqoption[acc].email == account) {
+                                password = user.data.iqoption[acc].password;
+                            }
+                        } 
                     }
+                    salvarLista(lista, userid, {valor: fValue, account, accType, password})
+                    return res.sendStatus(200);
                 } catch (err) {
                     console.log(err);
                 }
             }
         });
+    };
+
+    controller.receberGanho = async (req, res) => {
+        let {sinalId, signalId} = req.body;
+
     };
 
     controller.receberSinal = async (req, res) => {

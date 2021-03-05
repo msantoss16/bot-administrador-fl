@@ -39,4 +39,18 @@ def checkMail():
     checkACC = check(req_data['email'], req_data['password'], req_data['token'])
     return checkACC
 
+def apostarSinalUnico(req):
+    paridade = req['sinal']['paridade'].replace('/', '').upper()
+    try:
+        output = str(subprocess.Popen([sys.executable, 'iqscript.py', req['login']['email'], req['login']['password'], req['sinal']['periodo'], paridade, req['sinal']['sinal'], req['configs']['valor']], stdout = subprocess.PIPE, stderr = subprocess.STDOUT).communicate()[0].decode('utf-8'))
+        return output
+    except Exception as err:
+        print(err)
+
+@app.route('/sinal', methods=['POST'])
+def sinal():
+    req_data = request.get_json()
+    return apostarSinalUnico(req_data)
+
+
 app.run(debug=True)

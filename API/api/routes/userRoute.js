@@ -5,6 +5,7 @@ module.exports = app => {
     const tokens = require('../controllers/tokens')();
     const contas = require('../controllers/contas')();
     const pastas = require('../controllers/pastas')();
+    const dados = require('../controllers/dados')();
 
     //Rotas dos usuarios
     app.route('/users')
@@ -56,4 +57,10 @@ module.exports = app => {
         .post(pastas.novaPasta);
     app.route('/folders/')
         .get(pastas.carregarPasta);
+
+    //Rota dos dados
+    app.route('/folders/dados')
+        .get(dados.receberSinaisAllFolders);
+    app.route('/folder/dados')
+        .post(dados.receberSinaisDFolder);
 };

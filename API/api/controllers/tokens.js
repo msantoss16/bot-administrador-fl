@@ -5,5 +5,6 @@ module.exports = () => {
     controller.obterId = async (req, res) => {
         res.send({user: req.userId});
     };
+    
     return controller;
 }
