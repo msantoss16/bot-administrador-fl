@@ -4,10 +4,6 @@ module.exports = () => {
     const controller = {};
     const request = require('request');
     const scheduler = require('node-schedule');
-    dataa = new Date(2021, 1, 21, 21, 20, 00);
-    const b = scheduler.scheduleJob(dataa, () => {
-
-    });
     async function salvarLista(jsonLista, userid, configs) {
         dataAtual = new Date()
         for (dado in jsonLista){
@@ -30,6 +26,9 @@ module.exports = () => {
             })
                 .then(function(sinal) {
                     scheduler.scheduleJob(sinal.configsSignal.horario, () => {
+                        Sinal.findByIdAndUpdate(sinal.id, {
+                            'configsFolder.status': 1
+                        }).exec();
                         request({
                             url: 'http://localhost:5000/sinal',
                             method: 'POST',
@@ -51,7 +50,8 @@ module.exports = () => {
                             status = body.replace('\r\n', '').split('!');
                             if (status[0] == "True") {
                                 Sinal.findByIdAndUpdate(sinal.id, {
-                                    'configsFolder.status': 1,
+                                    'configsFolder.status': 2,
+                                    'configsFolder.win': status[2],
                                     signalId: status[1]
                                 }).exec();
                             } else {
@@ -78,6 +78,50 @@ module.exports = () => {
 
         }
     }
+
+    controller.receberSinalGd = async (req, res) => {
+        let {lista} = req.body;
+        (await User.find()).forEach( function(user) {
+            if (user.data.folders) {
+                if (user.data.folders != []) {
+                    try {
+                        var fValue, account, accType, password;
+                        if (user.data.configs.defaultFolder) {
+                            let defaultFolder = user.data.configs.defaultFolder;
+                            for (folderacc in user.data.folders) {
+                                if (folderacc._id == defaultFolder) {
+                                    fValue = folderacc.configs.value.real;
+                                    account = folderacc.configs.account;
+                                    accType = folderacc.configs.accType;
+                                    for (acc in user.data.iqoption) {
+                                        if (user.data.iqoption[acc].email == account) {
+                                            password = user.data.iqoption[acc].password;
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            fValue = user.data.folders[0].configs.value.real;
+                            account = user.data.folders[0].configs.account;
+                            accType = user.data.folders[0].configs.accType;
+                            for (acc in user.data.iqoption) {
+                                if (user.data.iqoption[acc].email == account) {
+                                    password = user.data.iqoption[acc].password;
+                                }
+                            }
+                        }
+                        if (fValue != undefined && account != undefined && accType != undefined && password != undefined) {
+                            salvarLista(lista, user.id, {valor: fValue, account, accType, password})
+                        }
+                    } catch (err) {
+                        
+                    }
+                }
+            }
+        });
+        res.sendStatus(200);
+    };
+
 
     controller.receberLista = async (req, res) => {
         let {lista, userid} = req.body;
@@ -107,7 +151,7 @@ module.exports = () => {
                     } else {
                         fValue = user.data.folders[0].configs.value.real;
                         account = user.data.folders[0].configs.account;
-                        accType = user.data.folders[0].configs.accType
+                        accType = user.data.folders[0].configs.accType;
                         for (acc in user.data.iqoption) {
                             if (user.data.iqoption[acc].email == account) {
                                 password = user.data.iqoption[acc].password;
@@ -122,6 +166,7 @@ module.exports = () => {
             }
         });
     };
+
 
     controller.receberGanho = async (req, res) => {
         let {sinalId, signalId} = req.body;

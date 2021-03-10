@@ -41,10 +41,8 @@ const SignalSchema = new mongoose.Schema({
             default: 0
         },
         win: {
-            type: Number,
-            default: 0,
-            get: getPrice,
-            set: setPrice
+            type: String,
+            default: "0"
         },
         gale: {
             type: Number,

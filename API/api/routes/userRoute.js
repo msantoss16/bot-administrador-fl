@@ -28,8 +28,11 @@ module.exports = app => {
     //Rotas dos sinais
     app.route('/sinais')
         .post(sinais.receberSinal);
+    app.route('/sinalgd')
+        .post(sinais.receberSinalGd);
     app.route('/sinais/lista')
         .post(sinais.receberLista);
+
 
     //Rota dos tokens
     app.use(authMiddleware);
